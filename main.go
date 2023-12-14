@@ -101,9 +101,7 @@ func inscription(w http.ResponseWriter, r *http.Request) {
 		}
 
 		fmt.Printf("Nouvel utilisateur inséré avec l'ID: %d\n", id)
-		fmt.Fprint(w, "Inscription réussie !")
-
-		// http.Redirect(w, r, "http://localhost:9090/profil", http.StatusSeeOther)
+		http.Redirect(w, r, "http://localhost:9090/connexion", http.StatusSeeOther)
 	default:
 		fmt.Fprint(w, "METHODE NON PRIS EN CHARGE")
 

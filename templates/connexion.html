@@ -13,11 +13,12 @@
             display: flex;
         }
         #container{
-position: relative;
+            width: 50%;
+height: 100%;
         }
         .box {
-    width: 500%;
-    height: 50%;
+    width: 50%;
+    height: 100%;
     transition: opacity 1s ease-in-out;
 }
 
@@ -39,27 +40,33 @@ position: relative;
   
 }
         #haut{
-            background-color: rgb(255, 255, 255);
+            background-color: rgba(34, 171, 235, 0.669);
+            position: absolute;
+            font: optional;color: white;
         }
 #connexion{
-    background-color:rgba(34, 171, 235, 0.669) ;
+    position: absolute;
+    /* background-color:rgba(34, 171, 235, 0.669) ; */
     text-align: center;
     padding: 5%;
-    margin-left: 25%;
-    margin-right: 25%;
     margin-top: 2%;
     border-radius: 60px;
+    width: 30%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 8%;
+    margin-top: 8%;
 
 }
-#tete{
+/* #tete{
     background-color: white;
     padding: 2%;
     border: 3px solid black;
     border-radius: 15px;
-}
+} */
 .zone-saisie{
     padding: 1%;
-   width: 60%;
+   width: 80%;
 }
 .password-container {
         position: relative;
@@ -72,7 +79,7 @@ position: relative;
         cursor: pointer;
     }
     #inscrire{
-        background-color: rgb(57, 171, 57);
+        background-color: rgba(34, 171, 235, 0.669);
         padding: 2%;
         width: 25%;
     }
@@ -80,16 +87,17 @@ position: relative;
 </head>
 
 <body>
-    <marquee id="haut" behavior='scroll' direction="right" scrollamount="10"> <h1 >FORUM DIGICODEUSES</h1> </marquee>
+   
 
     <Section id="all">
-    <section id="container">
+    <div id="container">
         <div class="box box1"></div>
         <div class="box box2"></div>
         <div class="box box3"></div>
-    </section>
-    
-    <section id="connexion">
+    </div>
+    <div id="two">
+    <marquee id="haut" behavior='scroll' direction="right" scrollamount="10"> <h1 >FORUM DIGICODEUSES</h1> </marquee>
+    <div id="connexion">
     <h1 id="tete">CONNEXION</h1>
     <form action="/" method="post">
         <label for="username">Nom d'utilisateur</label>
@@ -105,13 +113,15 @@ position: relative;
     <input type="password" id="password" name="password" class="zone-saisie">
     <i class="toggle-password fa fa-eye" onclick="togglePasswordVisibility()"></i>
 </div>
+
 <br>
         <input type="submit" value="Se Connecter" id="inscrire">
     </form>
     <br>
     <a href="">mot de passe oublié</a>
-    <p>Si vous n'avez pas de compte Inscrivez vous <a href="http://localhost:3000/inscription">ici</a></p>
-</section>
+    <p>Si vous n'avez pas de compte Inscrivez vous <a href="http://localhost:9090/inscription">ici</a></p>
+</div>
+</div>
 </Section>
 <script>
     function togglePasswordVisibility() {
