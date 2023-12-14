@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Inscription Digicodeuses</title>
+    <style>
+        body{
+            margin: 0;
+           background-color: rgb(0, 0, 0);
+        }
+        #haut{
+            background-color: rgb(252, 254, 253);
+        }
+#connexion{
+    background-color:rgb(34, 171, 235) ;
+    text-align: center;
+    padding: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    border-radius: 60px;
+
+}
+#tete{
+    background-color: white;
+    padding: 2%;
+    border: 3px solid black;
+    border-radius: 15px;
+}
+.zone-saisie{
+    padding: 1%;
+   width: 60%;
+}
+.password-container {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+    #inscrire{
+        background-color: rgb(57, 171, 57);
+        padding: 2%;
+        width: 25%;
+    }
+    </style>
+</head>
+
+<body>
+    <marquee id="haut" behavior='scroll' direction="right" scrollamount="10"> <h1 >FORUM DIGICODEUSES</h1> </marquee>
+    <section id="connexion">
+    <h1 id="tete">INSCRIPTION</h1>
+    <form action="/inscription" method="post">
+       
+
+        <label for="nom">Nom</label>
+        <br>
+        <input type="text" name="nom" id="nom" class="zone-saisie" required> 
+        <br>
+        <br>
+
+        <label for="prenom">Prenom</label>
+        <br>
+        <input type="prenom" name="prenom" id="prenom" class="zone-saisie" required>
+        <br>
+        <br>
+
+        <label for="email">Email</label>
+        <br>
+        <input type="email" name="email" id="email" class="zone-saisie" required>
+        <br>
+        <br>
+       
+        <label for="username">Nom d'utilisateur</label>
+        <br>
+        <input type="username" name="username" id="username" class="zone-saisie" required>
+        <br>
+        <br>
+<label for="password">Mot de passe :</label>
+<div class="password-container">
+    <input type="password" id="password" name="password_hash" class="zone-saisie" required>
+    <i class="toggle-password fa fa-eye" onclick="togglePasswordVisibility()"></i>
+</div>
+<br>
+<label for="confirmPassword">Confirmer Mot de passe</label>
+<div class="password-container">
+    <input type="password" id="confirmPassword" name="confirmPassword" class="zone-saisie" required>
+  
+</div>
+<br>
+        <input type="submit" value="S'inscrire" id="inscrire">
+    </form>
+    <br>
+   
+</section>
+<script>
+   function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const icon = document.querySelector('.toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                confirmPasswordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                confirmPasswordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        const buttonInscrire = document.querySelector("#inscrire")
+    buttonInscrire.addEventListener("mouseover", () => {
+        buttonInscrire.style.backgroundColor = "white"
+        buttonInscrire.style.borderColor = "white"
+    })
+
+    buttonInscrire.addEventListener("mouseout", ()=>{
+        buttonInscrire.style.backgroundColor = ""
+        buttonInscrire.style.borderColor = ""
+    })
+</script>
+</body>
+</html>
