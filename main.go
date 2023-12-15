@@ -121,7 +121,7 @@ func fil(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Afficher le profil de l'utilisateur avec les informations récupérées
-	t, err := template.ParseFiles("./templates/profil.html")
+	t, err := template.ParseFiles("./templates/fil.html")
 	if err != nil {
 		fmt.Fprint(w, "MODELE INTROUVABLE...")
 		return
@@ -130,7 +130,51 @@ func fil(w http.ResponseWriter, r *http.Request) {
 }
 
 func profil(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "fil", "")
+	// Récupérer l'identifiant de session à partir du cookie
+	cookie, err := r.Cookie("session")
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	sessionID := cookie.Value
+
+	// Vérifier si la session est active
+	if !activeSessions[sessionID] {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	// Récupérer les informations de l'utilisateur à partir de la base de données
+	db, err := sql.Open("sqlite3", "C:/sqlite/mabase.db")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Erreur lors de l'accès à la base de données", http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+
+	var nom, prenom string
+	err = db.QueryRow("SELECT nom, prenom FROM users WHERE username=?", sessionID).Scan(&nom, &prenom)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// L'utilisateur n'a pas été trouvé dans la base de données
+			log.Println("Utilisateur non trouvé dans la base de données")
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		log.Println("Erreur lors de la récupération des informations de l'utilisateur:", err)
+		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher le profil de l'utilisateur avec les informations récupérées
+	t, err := template.ParseFiles("./templates/profil.html")
+	if err != nil {
+		fmt.Fprint(w, "MODELE INTROUVABLE...")
+		return
+	}
+	t.Execute(w, struct{ Nom, Prenom string }{nom, prenom})
+
 }
 func renitialiser(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {

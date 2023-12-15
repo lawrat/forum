@@ -28,6 +28,7 @@
     margin: 7% 30px;
 
 }
+
     </style>
 </head>
 <body>
@@ -50,13 +51,198 @@
 </section>
 <section id="first">
     <div id="info">
-        <img src="https://images.prismic.io/utopix-next-website/Mzk0NGJkOWEtY2ZlYS00MjVjLTkwNTAtOGY5OWQzN2IzNGVi_762cec57-2eaf-4eaf-9a0d-2e7860147e48_profilhomme7.jpg?ixlib=js-3.8.0&w=3840&auto=format&fit=max" alt="" srcset="" id="profilImg" width="150px">
+        <img src="https://www.sne.fr/app/uploads/2017/10/profile-femme.jpg" alt="" srcset="" id="profilImg" width="150px">
         <h3 id="nomUtilisateur">{{.Nom}} {{.Prenom}}</h3>
         <a href="http://localhost:9090/profil" id="mod">Modifiez le profil</a>
     </div>
     <hr>
     <div id="fil">
         <h3>Fil d'actualité</h3>
+         <!-- ................................... MIDDLE ........................ -->
+         <div class="middle">
+            <!-- ------------------------------- STORIES ---------------------------- -->
+            <!-- <div class="stories">
+             <div class="story">
+                 <div class="profile-photo">
+                     <img src="./images/profile-8.jpg">
+                 </div>
+                 <p class="name">Your Story</p>
+             </div>
+             <div class="story">
+                 <div class="profile-photo">
+                     <img src="./images/profile-8.jpg">
+                 </div>
+                 <p class="name">Cecile James</p>
+             </div>
+             <div class="story">
+                 <div class="profile-photo">
+                     <img src="./images/profile-8.jpg">
+                 </div>
+                 <p class="name">Wilane </p>
+             </div>
+             <div class="story">
+                 <div class="profile-photo">
+                     <img src="./images/profile-8.jpg">
+                 </div>
+                 <p class="name">Diarra Aya</p>
+             </div>
+             <div class="story">
+                 <div class="profile-photo">
+                     <img src="./images/profile-8.jpg">
+                 </div>
+                 <p class="name">Leila Anne</p>
+             </div>
+             <div class="story">
+                 <div class="profile-photo">
+                     <img src="./images/profile-8.jpg">
+                 </div>
+                 <p class="name">Google Mr</p>
+             </div>
+            </div> -->
+            <!-- --------------- End of story ---------------- -->
+
+            <form class="create-post">
+             <div class="profile-photo">
+                 <img src="./images/profile-1.jpg">
+             </div>
+             <input type="text" placeholder="What's on your mind, Aïssa?" id="create-post">
+             <input type="submit" value="Post" class="btn btn-primary">
+            </form>
+            <!-- ---------------- FEEDS ------------------------- -->
+            <div class="feeds">
+            <!-- ---------------- FEED ------------------------- -->
+                 <div class="feed">
+                     <div class="head">
+                         <div class="user">
+                             <div class="profile-photo">
+                                 <img src="./images/profile-13.jpg">
+                             </div>
+                             <div class="ingo">
+                                 <h3>Lola Ruth</h3>
+                                 <small>Dubai, 13 MINUTES AGO</small>
+                             </div>
+                         </div>
+                         <span class="edit">
+                             <i class="uil uil-ellipsis-h"></i>
+                         </span>
+                     </div>
+                     <div class="photo">
+                         <img src="./images/feed-1.jpg" alt="">
+                     </div>
+
+                     <div class="action-buttons">
+                         <div class="interaction-buttons">
+                             <span><i class="uil uil-heart"></i></span>
+                             <span><i class="uil uil-comment-dots"></i></span> 
+                             <span><i class="uil uil-share-alt"></i></span>
+                         </div>
+                         <div class="bookmark">
+                            <span><i class="uil uil-bookmark-full"></i></span>
+                         </div>
+                     </div>
+
+                     <div class="liked-by">
+                         <span><img src="./images/profile-10.jpg"></span>
+                         <span><img src="./images/profile-4.jpg"></span>
+                         <span><img src="./images/profile-15.jpg"></span>
+                         <p>Liked by <b>Sana</b> and <b>1M others</b></p>
+                     </div>
+
+                     <div class="caption">
+                         <p><b>Sarah</b> Lorem ipsum dolor sit amet. <span class="harsh-tag">#lifestyle</span></p>
+                     </div>
+                     <div class="comments text-muted">View all 3M comments</div>
+                 </div>
+            </div>
+
+            <div class="feed">
+             <div class="head">
+                 <div class="user">
+                     <div class="profile-photo">
+                         <img src="./images/profile-13.jpg">
+                     </div>
+                     <div class="ingo">
+                         <h3>Aya Anj</h3>
+                         <small>Ghana, 10 HOURS AGO</small>
+                     </div>
+                 </div>
+                 <span class="edit">
+                     <i class="uil uil-ellipsis-h"></i>
+                 </span>
+             </div>
+             <div class="photo">
+                 <img src="./images/feed-4.jpg" alt="">
+             </div>
+
+             <div class="action-buttons">
+                 <div class="interaction-buttons">
+                     <span><i class="uil uil-heart"></i></span>
+                     <span><i class="uil uil-comment-dots"></i></span> 
+                     <span><i class="uil uil-share-alt"></i></span>
+                 </div>
+                 <div class="bookmark">
+                    <span><i class="uil uil-bookmark-full"></i></span>
+                 </div>
+             </div>
+
+             <div class="liked-by">
+                 <span><img src="./images/profile-11.jpg"></span>
+                 <span><img src="./images/profile-3.jpg"></span>
+                 <span><img src="./images/profile-14.jpg"></span>
+                 <p>Liked by <b>Anice Achive</b> and <b>2.323 others</b></p>
+             </div>
+
+             <div class="caption">
+                 <p><b>Dodou</b> Lorem ipsum dolor sit amet. <span class="harsh-tag">#lifestyle</span></p>
+             </div>
+             <div class="comments text-muted">View all 255 comments</div>
+         </div>
+
+         <div class="feed">
+             <div class="head">
+                 <div class="user">
+                     <div class="profile-photo">
+                         <img src="./images/profile-13.jpg">
+                     </div>
+                     <div class="ingo">
+                         <h3>Alex Zokou</h3>
+                         <small>USA, 2 MONTHS GO</small>
+                     </div>
+                 </div>
+                 <span class="edit">
+                     <i class="uil uil-ellipsis-h"></i>
+                 </span>
+             </div>
+             <div class="photo">
+                 <img src="./images/feed-5.jpg" alt="">
+             </div>
+
+             <div class="action-buttons">
+                 <div class="interaction-buttons">
+                     <span><i class="uil uil-heart"></i></span>
+                     <span><i class="uil uil-comment-dots"></i></span> 
+                     <span><i class="uil uil-share-alt"></i></span>
+                 </div>
+                 <div class="bookmark">
+                    <span><i class="uil uil-bookmark-full"></i></span>
+                 </div>
+             </div>
+
+             <div class="liked-by">
+                 <span><img src="./images/profile-15.jpg"></span>
+                 <span><img src="./images/profile-5.jpg"></span>
+                 <span><img src="./images/profile-13.jpg"></span>
+                 <p>Liked by <b>Anice Achive</b> and <b>35 others</b></p>
+             </div>
+
+             <div class="caption">
+                 <p><b>Aziz</b> Lorem ipsum dolor sit amet. <span class="harsh-tag">#lifestyle</span></p>
+             </div>
+             <div class="comments text-muted">View all 13 comments</div>
+             <!-- ------------------------END OF FEED ------------------- -->
+         </div>
+         <!-- -------------------------END OF FEEDS ---------------------------- -->
+</div>
     </div>
     <hr>
     <div id="mesDiscussion">
@@ -66,4 +252,3 @@
 </body>
 
 </html>
-

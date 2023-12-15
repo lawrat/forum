@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fil d'actualité</title>
     <style>
+        #connexion{
+    position: absolute;
+    /* background-color:rgba(34, 171, 235, 0.669) ; */
+    padding: 5%;
+    margin-top: 2%;
+    border-radius: 60px;
+    width: 30%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 8%;
+    margin-top: 1%;
+    font-size: 20px;
+
+}
+.zone-saisie{
+   width: 20%;
+   height: 30px;
+   border-radius: 10px;
+   font-size: 20px;
+}
        #tete{
         display: flex;
         background-color: rgb(34, 171, 235) ;
@@ -28,6 +48,16 @@
     margin: 7% 30px;
 
 }
+#info{
+    text-align: center;
+}
+#inscrire{
+        background-color: rgba(34, 171, 235, 0.669);
+        width: 10%;
+        font-size: 20px;
+        border-radius: 10px;
+
+    }
     </style>
 </head>
 <body>
@@ -48,19 +78,25 @@
         </div>
     </div>
 </section>
-<section id="first">
     <div id="info">
-        <img src="https://images.prismic.io/utopix-next-website/Mzk0NGJkOWEtY2ZlYS00MjVjLTkwNTAtOGY5OWQzN2IzNGVi_762cec57-2eaf-4eaf-9a0d-2e7860147e48_profilhomme7.jpg?ixlib=js-3.8.0&w=3840&auto=format&fit=max" alt="" srcset="" id="profilImg" width="150px">
+        <img src="https://www.sne.fr/app/uploads/2017/10/profile-femme.jpg" alt="" srcset="" id="profilImg" width="150px">
         <h3 id="nomUtilisateur">{{.Nom}} {{.Prenom}}</h3>
-        <a href="http://localhost:9090/profil" id="mod">Modifiez le profil</a>
+        <form action="/profil">
+            <label for="date">Date de naissance</label>
+            <input type="date" name="date" id="date" class="zone-saisie">
+<br>
+<br>
+            <label for="pays">Pays</label>
+            <input type="text" name="pays" id="pays" class="zone-saisie">
+            <br>
+            <br>
+            <label for="photo"></label>
+<br>
+<br>
+<input type="submit" value="Enregistrer" id="inscrire">
+        </form>
     </div>
-    <hr>
-    <div id="fil">
-        <h3>Fil d'actualité</h3>
-    </div>
-    <hr>
-    <div id="mesDiscussion">
-        <h3>discussion instantanée</h3>
+  
     </div>
 </section>
 </body>
