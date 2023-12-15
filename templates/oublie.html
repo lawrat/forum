@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Forum Digicodeuses</title>
+    <title>Renitialisation </title>
     <style>
+      
+
         body{
             margin: 0;
         }
@@ -14,7 +16,7 @@
         }
         #container{
             width: 50%;
-            height: 100%;
+height: 100%;
         }
         .box {
     width: 50%;
@@ -47,6 +49,7 @@
 #connexion{
     position: absolute;
     /* background-color:rgba(34, 171, 235, 0.669) ; */
+    text-align: center;
     padding: 5%;
     margin-top: 2%;
     border-radius: 60px;
@@ -54,25 +57,21 @@
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 8%;
-    margin-top: 1%;
-    font-size: 20px;
+    margin-top: 8%;
 
 }
- #tete{
-    text-align: center;
+/* #tete{
+    background-color: white;
     padding: 2%;
-    margin-right: 25%;
-
-}
+    border: 3px solid black;
+    border-radius: 15px;
+} */
 .zone-saisie{
+    padding: 1%;
    width: 80%;
-   height: 30px;
-   border-radius: 10px;
-   font-size: 20px;
 }
 .password-container {
         position: relative;
-        
     }
 
     .toggle-password {
@@ -80,24 +79,18 @@
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
-        margin: 5%;
-        margin-bottom: 26%;
     }
     #inscrire{
         background-color: rgba(34, 171, 235, 0.669);
         padding: 2%;
-        width: 30%;
-        font-size: 20px;
-        border-radius: 10px;
-
+        width: 25%;
     }
-    #oeil{
-   font-size: 30px;
-   margin-top: 4px;
-   margin-left: -50px;
-}
-
-   
+    #code{
+        visibility: visible;
+    }
+    #add{
+        visibility: hidden;
+    }
     </style>
 </head>
 
@@ -113,30 +106,38 @@
     <div id="two">
     <marquee id="haut" behavior='scroll' direction="right" scrollamount="10"> <h1 >FORUM DIGICODEUSES</h1> </marquee>
     <div id="connexion">
-    <h1 id="tete">Connexion</h1>
+   
     <form action="/" method="post">
-        <label for="username">Nom d'utilisateur</label>
+        <div id="add">
+            <h1 id="tete">Renitialisation du mot de passe</h1>
+        <label for="adresse">Adresse Email</label>
         <br>
-        <input type="text" name="username" id="username" class="zone-saisie">
+        <input type="text" name="adresse" id="adresse" class="zone-saisie">
         <br>
         <br>
-       
-<label for="password">Mot de passe :</label>
+        <input type="submit" value="Envoyer" id="inscrire">
+    </div>
+        <br>
+        <div id="code">
+<label for="password">Entrer le code reçu par mail</label>
 <div class="password-container">
-    <input type="password" id="password" name="password" class="zone-saisie">
-    <span> <i id="oeil" class="toggle-password fa fa-eye" onclick="togglePasswordVisibility()"></i></span>
+    <br>
+    <input type="code" id="code" name="code" class="zone-saisie">
+    <br>
+    <br>
+    <input type="submit" value="Envoyer" id="inscrire">
 </div>
-{{if .ErrorMessage }}
+</div>
+</div>
+<!-- {{if .ErrorMessage }}
     <p style="color: red;">{{.ErrorMessage}}</p>
 {{end}}
-<br>
-
-        <input type="submit" value="Se Connecter" id="inscrire">
+<br> -->
     </form>
-    <br>
-    <a href="http://localhost:9090/mdp">mot de passe oublié</a>
-    <p>Si vous n'avez pas de compte Inscrivez vous <a href="http://localhost:9090/inscription">ici</a></p>
-</div>
+    <!-- <br>
+    <p>Si vous n'avez rien reçu 
+    <p>Renvoyer le code <p>
+</div> -->
 </div>
 </Section>
 <script>

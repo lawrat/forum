@@ -22,7 +22,6 @@
     transition: opacity 1s ease-in-out;
 }
 
-
 .box1 {
   position: absolute;
     background-image: url("https://scontent.fabj4-2.fna.fbcdn.net/v/t39.30808-6/401498152_319470120835566_10551794653247803_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=3635dc&_nc_ohc=1NwWQSJ3y6sAX-tmUsb&_nc_ht=scontent.fabj4-2.fna&oh=00_AfB1qcrnAUdXBdVjZZe6yQrvWoWM1bdQpAngFw1ZnAgHiw&oe=657FBD64");
@@ -46,15 +45,18 @@
             font: optional;color: white;
         }
 #connexion{
-     /* background-color:rgba(34, 171, 235, 0.669) ; */
-    padding: 1%;
+    position: absolute;
+    /* background-color:rgba(34, 171, 235, 0.669) ; */
+    padding: 5%;
+    margin-top: 2%;
+    border-radius: 60px;
     width: 30%;
     margin-left: 5%;
     margin-right: 5%;
-    margin-bottom: 12%;
+    margin-bottom: 8%;
+    margin-top: 1%;
     font-size: 20px;
-    margin-top: 2%;
-    position: absolute;
+
 }
  #tete{
     text-align: center;
@@ -70,7 +72,7 @@
 }
 .password-container {
         position: relative;
-display: flex;        
+        
     }
 
     .toggle-password {
@@ -89,14 +91,13 @@ display: flex;
         border-radius: 10px;
 
     }
-   
-#oeil{
+    #oeil{
    font-size: 30px;
    margin-top: 4px;
    margin-left: -50px;
 }
 
-
+   
     </style>
 </head>
 
@@ -109,88 +110,64 @@ display: flex;
         <div class="box box2"></div>
         <div class="box box3"></div>
     </div>
-
     <div id="two">
-        <marquee id="haut" behavior='scroll' direction="right" scrollamount="10"> <h1 >FORUM DIGICODEUSES</h1> </marquee>
-        <div id="connexion">
-            <h2 id="tete">Inscription</h2>
-            <form action="/inscription" method="post">
-               
-        
-                <label for="nom">Nom</label>
-                <br>
-                <input type="text" name="nom" id="nom" class="zone-saisie" required> 
-                <br>
-                <br>
-        
-                <label for="prenom">Prenom</label>
-                <br>
-                <input type="prenom" name="prenom" id="prenom" class="zone-saisie" required>
-                <br>
-                <br>
-        
-                <label for="email">Email</label>
-                <br>
-                <input type="email" name="email" id="email" class="zone-saisie" required>
-                <br>
-                <br>
-               
-                <label for="username">Nom d'utilisateur</label>
-                <br>
-                <input type="username" name="username" id="username" class="zone-saisie" required>
-                <br>
-                <br>
-        <label for="password">Mot de passe :</label>
-        <div class="password-container">
-            <input type="password" id="password" name="password_hash" class="zone-saisie" required >
-           <span> <i id="oeil" class="toggle-password fa fa-eye" onclick="togglePasswordVisibility()"></i></span>
-           
-        </div>
+    <marquee id="haut" behavior='scroll' direction="right" scrollamount="10"> <h1 >FORUM DIGICODEUSES</h1> </marquee>
+    <div id="connexion">
+
+
+    <h3 id="tete">Renitialiser votre mot de passe</h3>
+    <form action="/" method="post">
+        <input type="text" name="email" id="email" class="zone-saisie">
         <br>
-        <label for="confirmPassword">Confirmer Mot de passe</label>
-        <div class="password-container">
-            <input type="password" id="confirmPassword" name="confirmPassword" class="zone-saisie" required>
-          
-        </div>
-        {{if .ErrorMessage }}
-    <p style="color: red;">{{.ErrorMessage}}</p>
-{{end}}
         <br>
-                <input type="submit" value="S'inscrire" id="inscrire">
-            </form>
-            <br>
-           
-    </div>
+        <button onclick="sendMail()"><a href="http://localhost:9090/verification">Envoyer</a></button>
+  </form>
     
-   
+</div>
+</div>
+</Section>
 <script>
-    function togglePasswordVisibility() {
-    const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    const icon = document.querySelector('.toggle-password');
+    function sendMail(){
+ var params = {
+        email: document.getElementById("email").value,
+    };
 
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        confirmPasswordInput.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        passwordInput.type = 'password';
-        confirmPasswordInput.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
+const serviceID = "service_bwemxrd";
+const templateID = "template_xvmhlqi";
+
+emailjs
+.send(serviceID, templateID, params)
+.then((res) => {
+        document.getElementById("email").value = "";
+        console.log(res);
+        alert("message succès");
+    })
+.catch((err) => console.log(err));
 }
-const buttonInscrire = document.querySelector("#inscrire")
-buttonInscrire.addEventListener("mouseover", () => {
-buttonInscrire.style.backgroundColor = "white"
-buttonInscrire.style.borderColor = "white"
-})
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const icon = document.querySelector('.toggle-password');
 
-buttonInscrire.addEventListener("mouseout", ()=>{
-buttonInscrire.style.backgroundColor = ""
-buttonInscrire.style.borderColor = ""
-})
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    const buttonInscrire = document.querySelector("#inscrire")
+    buttonInscrire.addEventListener("mouseover", () => {
+        buttonInscrire.style.backgroundColor = "white"
+        buttonInscrire.style.borderColor = "white"
+    })
+
+    buttonInscrire.addEventListener("mouseout", ()=>{
+        buttonInscrire.style.backgroundColor = ""
+        buttonInscrire.style.borderColor = ""
+    })
     document.addEventListener('DOMContentLoaded', function () {
     const boxes = document.querySelectorAll('.box');
     let currentIndex = 0;
