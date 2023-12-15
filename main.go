@@ -82,7 +82,7 @@ func sendMail(email string) error {
 func verification(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "verification", "")
 }
-func profil(w http.ResponseWriter, r *http.Request) {
+func fil(w http.ResponseWriter, r *http.Request) {
 	// Récupérer l'identifiant de session à partir du cookie
 	cookie, err := r.Cookie("session")
 	if err != nil {
@@ -109,7 +109,13 @@ func profil(w http.ResponseWriter, r *http.Request) {
 	var nom, prenom string
 	err = db.QueryRow("SELECT nom, prenom FROM users WHERE username=?", sessionID).Scan(&nom, &prenom)
 	if err != nil {
-		log.Println(err)
+		if err == sql.ErrNoRows {
+			// L'utilisateur n'a pas été trouvé dans la base de données
+			log.Println("Utilisateur non trouvé dans la base de données")
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		log.Println("Erreur lors de la récupération des informations de l'utilisateur:", err)
 		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 		return
 	}
@@ -123,7 +129,7 @@ func profil(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, struct{ Nom, Prenom string }{nom, prenom})
 }
 
-func fil(w http.ResponseWriter, r *http.Request) {
+func profil(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "fil", "")
 }
 func renitialiser(w http.ResponseWriter, r *http.Request) {
@@ -191,7 +197,6 @@ func connexion(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
-
 		renderTemplate(w, "connexion", "")
 	case "POST":
 		db, err := sql.Open("sqlite3", "C:/sqlite/mabase.db")
@@ -220,7 +225,7 @@ func connexion(w http.ResponseWriter, r *http.Request) {
 
 		if username == usernameDB && motDePasse == motDePasseDB {
 			// Générer un identifiant de session et définir un cookie
-			sessionID := generateSessionID()
+			sessionID := username // Utilisez l'username comme identifiant de session
 			http.SetCookie(w, &http.Cookie{
 				Name:  "session",
 				Value: sessionID,
@@ -250,7 +255,6 @@ func connexion(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
-
 func inscription(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":

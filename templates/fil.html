@@ -20,20 +20,28 @@
 #nomUtilisateur{
     font: optional;color: gray;
 }
+#autre{
+    display: flex;
+    margin-left: 60%;
+}
+.car{
+    margin: 7% 30px;
+
+}
     </style>
 </head>
 <body>
     <section id="tete">
     <h1 >Forum Digicodeuses</h1>
     <div id="autre">
-        <div id="acueil">
-            <a href="">Accueil</a>
+        <div id="acueil" class="car">
+            <a href="http://localhost:9090">Accueil</a>
         </div>
         
-        <div id="monProfil">
-            <a href="">Mon profil</a>
+        <div id="monProfil" class="car">
+            <a href="http://localhost:9090/profil">Mon profil</a>
         </div>
-        <div id="deconnexion">
+        <div id="deconnexion" class="car">
             <form action="/deconnexion" method="post">
                 <button type="submit">Déconnexion</button>
             </form>
@@ -44,7 +52,7 @@
     <div id="info">
         <img src="https://images.prismic.io/utopix-next-website/Mzk0NGJkOWEtY2ZlYS00MjVjLTkwNTAtOGY5OWQzN2IzNGVi_762cec57-2eaf-4eaf-9a0d-2e7860147e48_profilhomme7.jpg?ixlib=js-3.8.0&w=3840&auto=format&fit=max" alt="" srcset="" id="profilImg" width="150px">
         <h3 id="nomUtilisateur">{{.Nom}} {{.Prenom}}</h3>
-        <a href="" id="mod">Modifiez le profil</a>
+        <a href="http://localhost:9090/profil" id="mod">Modifiez le profil</a>
     </div>
     <hr>
     <div id="fil">

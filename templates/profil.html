@@ -8,40 +8,61 @@
        #tete{
         display: flex;
         background-color: rgb(34, 171, 235) ;
-        padding: 1px;
+        padding: 5px;
         font: optional;color: white;
        }
-     
+        #first{
+            display: flex;
+        }
         #profilImg{
             border-radius: 80px;
         }
 #nomUtilisateur{
     font: optional;color: gray;
 }
-#info{
-    margin-top: 2%;
-    text-align: center;
+#autre{
+    display: flex;
+    margin-left: 60%;
+}
+.car{
+    margin: 7% 30px;
+
 }
     </style>
 </head>
 <body>
     <section id="tete">
-    
-    <div id="un">
-        <h1 >Forum Digicodeuses</h1>
-    </div>
-    <div id="menu">
-        div#
+    <h1 >Forum Digicodeuses</h1>
+    <div id="autre">
+        <div id="acueil" class="car">
+            <a href="http://localhost:9090">Accueil</a>
+        </div>
+        
+        <div id="monProfil" class="car">
+            <a href="http://localhost:9090/profil">Mon profil</a>
+        </div>
+        <div id="deconnexion" class="car">
+            <form action="/deconnexion" method="post">
+                <button type="submit">Déconnexion</button>
+            </form>
+        </div>
     </div>
 </section>
-   
-        <div id="info">
-    <img src="https://images.prismic.io/utopix-next-website/Mzk0NGJkOWEtY2ZlYS00MjVjLTkwNTAtOGY5OWQzN2IzNGVi_762cec57-2eaf-4eaf-9a0d-2e7860147e48_profilhomme7.jpg?ixlib=js-3.8.0&w=3840&auto=format&fit=max" alt="" srcset="" id="profilImg" width="150px">
-    <h3 id="nomUtilisateur">Utilisateur 1</h3>
-    <a href="" id="mod">Modifiez le profil</a>
-        </div>
-   
-       
+<section id="first">
+    <div id="info">
+        <img src="https://images.prismic.io/utopix-next-website/Mzk0NGJkOWEtY2ZlYS00MjVjLTkwNTAtOGY5OWQzN2IzNGVi_762cec57-2eaf-4eaf-9a0d-2e7860147e48_profilhomme7.jpg?ixlib=js-3.8.0&w=3840&auto=format&fit=max" alt="" srcset="" id="profilImg" width="150px">
+        <h3 id="nomUtilisateur">{{.Nom}} {{.Prenom}}</h3>
+        <a href="http://localhost:9090/profil" id="mod">Modifiez le profil</a>
+    </div>
+    <hr>
+    <div id="fil">
+        <h3>Fil d'actualité</h3>
+    </div>
+    <hr>
+    <div id="mesDiscussion">
+        <h3>discussion instantanée</h3>
+    </div>
+</section>
 </body>
 
 </html>
