@@ -79,9 +79,11 @@ func sendMail(email string) error {
 
 	return nil
 }
+
 func verification(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "verification", "")
 }
+
 func fil(w http.ResponseWriter, r *http.Request) {
 	// Récupérer l'identifiant de session à partir du cookie
 	cookie, err := r.Cookie("session")
@@ -176,6 +178,236 @@ func profil(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, struct{ Nom, Prenom string }{nom, prenom})
 
 }
+
+func modificationProfil(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		// Récupérer l'identifiant de session à partir du cookie
+		cookie, err := r.Cookie("session")
+		if err != nil {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		sessionID := cookie.Value
+
+		// Vérifier si la session est active
+		if !activeSessions[sessionID] {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+
+		// Récupérer les informations de l'utilisateur à partir de la base de données
+		db, err := sql.Open("sqlite3", "C:/sqlite/mabase.db")
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Erreur lors de l'accès à la base de données", http.StatusInternalServerError)
+			return
+		}
+		defer db.Close()
+
+		var nom, prenom string
+		err = db.QueryRow("SELECT nom, prenom FROM users WHERE username=?", sessionID).Scan(&nom, &prenom)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				// L'utilisateur n'a pas été trouvé dans la base de données
+				log.Println("Utilisateur non trouvé dans la base de données")
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+			log.Println("Erreur lors de la récupération des informations de l'utilisateur:", err)
+			http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+			return
+		}
+
+		// Afficher le profil de l'utilisateur avec les informations récupérées
+		t, err := template.ParseFiles("./templates/modificationProfil.html")
+		if err != nil {
+			fmt.Fprint(w, "MODELE INTROUVABLE...")
+			return
+		}
+		t.Execute(w, struct{ Nom, Prenom string }{nom, prenom})
+	case "POST":
+		cookie, err := r.Cookie("session")
+		if err != nil {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		sessionID := cookie.Value
+
+		// Vérifier si la session est active
+		if !activeSessions[sessionID] {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+
+		// Récupérer les informations de l'utilisateur à partir de la base de données
+		db, err := sql.Open("sqlite3", "C:/sqlite/mabase.db")
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Erreur lors de l'accès à la base de données", http.StatusInternalServerError)
+			return
+		}
+		defer db.Close()
+
+		photo := r.FormValue("photo")
+		date_naissance := r.FormValue("date")
+		pays := r.FormValue("pays")
+		centre_interet := r.FormValue("interet")
+
+		var usernameDB, photoDB, date_naissanceDB, paysDB, centre_interetDB string
+		err = db.QueryRow("SELECT username, photo_de_profil, date_de_naissance, pays_origine, centre_interet FROM users WHERE username=?", sessionID).Scan(&usernameDB, &photoDB, &date_naissanceDB, paysDB, centre_interetDB)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				// L'utilisateur n'a pas été trouvé dans la base de données
+				log.Println("Utilisateur non trouvé dans la base de données")
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
+			log.Println("Erreur lors de la récupération des informations de l'utilisateur:", err)
+			http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+			return
+		}
+		if sessionID == usernameDB {
+			if photoDB == "" {
+				result, err := db.Exec(`INSERT INTO users (photo_de_profil)
+							VALUES (?)`,
+					photo)
+				if err != nil {
+					fmt.Println("ERREUR LORS DE L'INSERTION DANS LA BASE DE DONNE")
+				}
+				// Récupérer l'ID de la ligne insérée
+				id, err := result.LastInsertId()
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				fmt.Printf("photo de profil avec l'ID: %d insérer\n", id)
+			} else if photoDB != "" {
+				_, err = db.Exec("UPDATE users SET photo_de_profil=? WHERE username=?", photo, sessionID)
+				if err != nil {
+					log.Println(err)
+					http.Error(w, "Erreur lors de la mise à jour des informations de l'utilisateur", http.StatusInternalServerError)
+					return
+				}
+
+				fmt.Printf("photo de profil pour l'utilisateur: %s mis a jour\n", sessionID)
+			} else if date_naissanceDB == "" {
+				result, err := db.Exec(`INSERT INTO users (date_de_naissance)
+							VALUES (?)`,
+					date_naissance)
+				if err != nil {
+					fmt.Println("ERREUR LORS DE L'INSERTION DE LA DATE DE NAISSANCE DANS LA BASE DE DONNE")
+				}
+				// Récupérer l'ID de la ligne insérée
+				id, err := result.LastInsertId()
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				fmt.Printf("date de naissance avec l'ID: %d insérer\n", id)
+			} else if date_naissanceDB != "" {
+				_, err = db.Exec("UPDATE users SET date_de_naissance=? WHERE username=?", date_naissance, sessionID)
+				if err != nil {
+					log.Println(err)
+					http.Error(w, "Erreur lors de la mise à jour de la date de naissance", http.StatusInternalServerError)
+					return
+				}
+
+				fmt.Printf("date de naissance pour l'utilisateur: %s mis a jour\n", sessionID)
+			} else if paysDB == "" {
+				result, err := db.Exec(`INSERT INTO users (pays_origine)
+						VALUES (?)`,
+					pays)
+				if err != nil {
+					fmt.Println("ERREUR LORS DE L'INSERTION DU PAYS DANS LA BASE DE DONNE")
+				}
+				// Récupérer l'ID de la ligne insérée
+				id, err := result.LastInsertId()
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				fmt.Printf("pays avec l'ID: %d insérer\n", id)
+			} else if paysDB != "" {
+				_, err = db.Exec("UPDATE users SET pays_origine=? WHERE username=?", pays, sessionID)
+				if err != nil {
+					log.Println(err)
+					http.Error(w, "Erreur lors de la mise à jour du pays", http.StatusInternalServerError)
+					return
+				}
+
+				fmt.Printf("pays pour l'utilisateur: %s mis a jour\n", sessionID)
+			} else if centre_interetDB == "" {
+				result, err := db.Exec(`INSERT INTO users (centre_interet)
+						VALUES (?)`,
+					centre_interet)
+				if err != nil {
+					fmt.Println("ERREUR LORS DE L'INSERTION DES CENTRES D4INTERET DANS LA BASE DE DONNE")
+				}
+				// Récupérer l'ID de la ligne insérée
+				id, err := result.LastInsertId()
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				fmt.Printf("centre d'interets avec l'ID: %d insérer\n", id)
+			} else if centre_interetDB != "" {
+				_, err = db.Exec("UPDATE users SET centre_interet=? WHERE username=?", pays, sessionID)
+				if err != nil {
+					log.Println(err)
+					http.Error(w, "Erreur lors de la mise à jour des centres d'interets", http.StatusInternalServerError)
+					return
+				}
+
+				fmt.Printf("pays pour l'utilisateur: %s mis a jour\n", sessionID)
+			}
+		}
+		http.Redirect(w, r, "http://localhost:9090/afficherProfil", http.StatusSeeOther)
+	}
+}
+
+func afficherInfo(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("session")
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	sessionID := cookie.Value
+
+	// Vérifier si la session est active
+	if !activeSessions[sessionID] {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+	db, err := sql.Open("sqlite3", "C:/sqlite/mabase.db")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Erreur lors de l'accès à la base de données", http.StatusInternalServerError)
+		return
+	}
+	defer db.Close()
+	var nomDB, prenomDB, emailDB, usernameDB, photoDB, date_naissanceDB, paysDB, centre_interetDB string
+	err = db.QueryRow("SELECT username, photo_de_profil, date_de_naissance, pays_origine, centre_interet FROM users WHERE username=?", sessionID).Scan(&usernameDB, &photoDB, &date_naissanceDB, paysDB, centre_interetDB)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// L'utilisateur n'a pas été trouvé dans la base de données
+			log.Println("Utilisateur non trouvé dans la base de données")
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		log.Println("Erreur lors de la récupération des informations de l'utilisateur:", err)
+		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+		return
+	}
+
+	t, err := template.ParseFiles("./templates/afficherInfo.html")
+	if err != nil {
+		fmt.Fprint(w, "MODELE INTROUVABLE...")
+		return
+	}
+	t.Execute(w, struct{ Nom, Prenom, Email, Username, Date_naissance, Pays, Centre_interet string }{nomDB, prenomDB, emailDB, usernameDB, date_naissanceDB, paysDB, centre_interetDB})
+}
+
 func renitialiser(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
@@ -213,7 +445,7 @@ func renitialiser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if username == userDB {
-			_, err = db.Exec("UPDATE users SET password_hash=? WHERE username=?", passwordHash)
+			_, err = db.Exec("UPDATE users SET password_hash=? WHERE username=?", passwordHash, username)
 			if err != nil {
 				log.Println(err)
 				http.Error(w, "Erreur lors de la mise à jour des informations de l'utilisateur", http.StatusInternalServerError)
@@ -299,6 +531,7 @@ func connexion(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
 func inscription(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
@@ -371,22 +604,19 @@ func deconnexion(w http.ResponseWriter, r *http.Request) {
 	// Rediriger vers la page de connexion
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
-
-func generateSessionID() string {
-	// Implémentez une logique plus robuste pour générer un identifiant de session unique
-	return "some_generated_session_id"
-}
-
 func main() {
 	// Ajoutez une nouvelle route pour la déconnexion
-	http.HandleFunc("/deconnexion", deconnexion)
+
+	http.HandleFunc("/inscription", inscription)
+	http.HandleFunc("/", connexion)
+	http.HandleFunc("/fil", fil)
 	http.HandleFunc("/verification", verification)
 	http.HandleFunc("/mdp", mdp)
 	http.HandleFunc("/renitialiser", renitialiser)
-	http.HandleFunc("/", connexion)
-	http.HandleFunc("/fil", fil)
-	http.HandleFunc("/inscription", inscription)
 	http.HandleFunc("/profil", profil)
+	http.HandleFunc("/modificationProfil", modificationProfil)
+	http.HandleFunc("/afficherInfo", afficherInfo)
+	http.HandleFunc("/deconnexion", deconnexion)
 	fmt.Printf("Serveur en cours d'exécution sur http://%s%s\n", addr, port)
 	http.ListenAndServe(port, nil)
 }

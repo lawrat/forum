@@ -50,19 +50,14 @@
     margin: 7% 30px;
 
 }
-#info{
-    text-align: center;
-}
+/* #info{
+} */
 #inscrire{
         background-color: rgba(34, 171, 235, 0.669);
         width: 10%;
         font-size: 20px;
         border-radius: 10px;
 
-    }
-    .a{
-        text-decoration: none;
-        margin: 0 15px;
     }
     </style>
 </head>
@@ -88,14 +83,19 @@
    
     <!-- Affichage de l'image de profil actuelle -->
     <img src="https://www.sne.fr/app/uploads/2017/10/profile-femme.jpg" alt="" id="profilImg" width="150px">
-    <input type="hidden" id="selectedImage" name="selectedImage">
 
-    <h3 id="nomUtilisateur">{{.Nom}} {{.Prenom}}</h3>
-    <a class="a" href="http://localhost:9090/modificationProfil">Modifiez le profil </a>
-    <a  class="a" href="http://localhost:9090/afficherProfil">A propos</a>
+    <h3 id="nom">{{.Nom}} </h3>
+    <h3 id="prenom"> {{.Prenom}}</h3>
+    <h3 id="username">{{.Username}} </h3>
+    <h3 id="email">{{.Email}} </h3>
+    <h3 id="date">{{.Date_naissance}}</h3>
+    <h3 id="pays">{{.Pays}} </h3>
+    <h3 id="centre_interet">{{.Centre_interet}}</h3>
+   
 </div>
   
-   
+    </div>
+</section>
 </body>
 <script>
      // Code JavaScript pour gérer la sélection d'image

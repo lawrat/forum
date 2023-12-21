@@ -50,19 +50,14 @@
     margin: 7% 30px;
 
 }
-#info{
-    text-align: center;
-}
+/* #info{
+} */
 #inscrire{
         background-color: rgba(34, 171, 235, 0.669);
         width: 10%;
         font-size: 20px;
         border-radius: 10px;
 
-    }
-    .a{
-        text-decoration: none;
-        margin: 0 15px;
     }
     </style>
 </head>
@@ -85,17 +80,33 @@
     </div>
 </section>
 <div id="info">
-   
+    <!-- Champ d'entrée pour que l'utilisateur choisisse une nouvelle image de profil -->
+    <input type="file" id="profileImageInput" name="photo" accept="image/*">
+    
     <!-- Affichage de l'image de profil actuelle -->
     <img src="https://www.sne.fr/app/uploads/2017/10/profile-femme.jpg" alt="" id="profilImg" width="150px">
-    <input type="hidden" id="selectedImage" name="selectedImage">
 
     <h3 id="nomUtilisateur">{{.Nom}} {{.Prenom}}</h3>
-    <a class="a" href="http://localhost:9090/modificationProfil">Modifiez le profil </a>
-    <a  class="a" href="http://localhost:9090/afficherProfil">A propos</a>
+    <form action="/modificationProfil" method="post">
+        <!-- Champ d'entrée caché pour stocker le fichier image sélectionné -->
+        <input type="hidden" id="selectedImage" name="selectedImage">
+
+        <label for="date">Date de naissance</label>
+        <input type="date" name="date" id="date" class="zone-saisie">
+        <br>
+        <br>
+        <label for="pays">Pays</label>
+        <input type="text" name="pays" id="pays" class="zone-saisie">
+        <br>
+        <br><label for="interet">Centre d'interet</label>
+        <input type="text" name="interet" id="interet" class="zone-saisie">
+        <br>
+        <br>
+        <input type="submit" value="Enregistrer" id="inscrire">
+    </form>
 </div>
   
-   
+    </div>
 </body>
 <script>
      // Code JavaScript pour gérer la sélection d'image
@@ -109,5 +120,7 @@
             document.getElementById('selectedImage').value = imageUrl;
         }
     });
+
+  
 </script>
 </html>
